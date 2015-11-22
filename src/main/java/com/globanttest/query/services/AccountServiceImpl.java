@@ -1,41 +1,34 @@
 package com.globanttest.query.services;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.globanttest.domain.Account;
-import com.globanttest.interfaces.rest.CreditAccountCommand;
-import com.globanttest.interfaces.rest.DebitAccountCommand;
-import com.globanttest.interfaces.rest.OpenAccountCommand;
+import com.globanttest.query.domain.AccountBalance;
 
 @Service
 //Adapter converts external request and events into commands
 public class AccountServiceImpl implements AccountQueryService {
 	
 	@Autowired
-	//Aggregate Route
-	private Account account;
+	private MongoOperations mongoOperation;
 	
-	@Override
-	public void openAccount(BigDecimal balance) {
-		OpenAccountCommand accountOpenCommand = new OpenAccountCommand(balance);
-		account.processOpenAccount(accountOpenCommand);
-	}
 
 	@Override
-	public void debitAccount(BigDecimal balance, Long transactionID) {
-		DebitAccountCommand debitAccountCommand = new DebitAccountCommand(balance, transactionID);
-		account.processDebitAccount(debitAccountCommand);
+	public List<AccountBalance> accountBalance(Long accountID) {
+		Query searchUserQuery = new Query(Criteria.where("accountId").is(accountID));
+		AccountBalance account = new AccountBalance("1",1L,"OPEN");
+		mongoOperation.insert(account);
 		
+		List<AccountBalance> accountBalances = mongoOperation.find(searchUserQuery, AccountBalance.class);
+		return accountBalances;
 	}
+
 	
-	@Override
-	public void creditAccount(BigDecimal balance, Long transactionID) {
-		CreditAccountCommand creditAccountCommand = new CreditAccountCommand(balance, transactionID);
-		account.processCreditAccount(creditAccountCommand);
-		
-	}
 	
 }
