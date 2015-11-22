@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -22,9 +21,7 @@ public class AccountServiceImpl implements AccountQueryService {
 	@Override
 	public List<AccountBalance> accountBalance(Long accountID) {
 		Query searchUserQuery = new Query(Criteria.where("accountId").is(accountID));
-		AccountBalance account = new AccountBalance("1",1L,"OPEN");
-		mongoOperation.insert(account);
-		
+
 		List<AccountBalance> accountBalances = mongoOperation.find(searchUserQuery, AccountBalance.class);
 		return accountBalances;
 	}
