@@ -8,4 +8,6 @@ public interface AccountQueryService {
 	
 	List<AccountBalance> accountBalance(Long accountID);
 
+	List<AccountBalance> accountAll();
+
 }

@@ -1,4 +1,4 @@
-package com.globanttest.query.events;
+package com.globanttest.domain.events;
 
 public enum AccountEventType {
 

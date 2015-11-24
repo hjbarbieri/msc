@@ -25,6 +25,13 @@ public class AccountServiceImpl implements AccountQueryService {
 		List<AccountBalance> accountBalances = mongoOperation.find(searchUserQuery, AccountBalance.class);
 		return accountBalances;
 	}
+	
+	@Override
+	public List<AccountBalance> accountAll() {
+	
+		List<AccountBalance> accountBalances = mongoOperation.findAll(AccountBalance.class);
+		return accountBalances;
+	}
 
 	
 	
