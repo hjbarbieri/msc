@@ -22,14 +22,9 @@ public class AccountQueryController {
 	@RequestMapping(value="/accounts/balance/{accountID}",method = RequestMethod.GET)
 	@ResponseBody
 	public BigDecimal totalBalanceAccount(@PathVariable Long accountID){
-		List<AccountBalance> accountBalances = accountQueryService.accountBalance(accountID);
-		BigDecimal balanceTotal = BigDecimal.ZERO;
-		for (AccountBalance accountBalance : accountBalances) {
-			BigDecimal amount = new BigDecimal(accountBalance.getAmount());
-			balanceTotal = balanceTotal.add(amount);
-			amount = null;
-		}
-		return balanceTotal;
+		BigDecimal totalBalances = accountQueryService.totalBalance(accountID);
+		
+		return totalBalances;
 	}
 	
 	@RequestMapping(value="/accounts/{accountID}",method = RequestMethod.GET)
